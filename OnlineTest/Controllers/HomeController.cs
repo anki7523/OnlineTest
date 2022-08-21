@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineTest.Data;
 using OnlineTest.Models;
 using System.Diagnostics;
 
@@ -6,16 +7,16 @@ namespace OnlineTest.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly dbEntities _db;
+        private readonly OnlineTestContext _db;
 
-        public HomeController(dbEntities db)
+        public HomeController(OnlineTestContext db)
         {
             _db = db;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<UserModel> data = _db.Users.ToList();
+            var data = _db.Users.ToList();
             return View(data);
         }
 
@@ -49,7 +50,7 @@ namespace OnlineTest.Controllers
 
         public IActionResult QuestionAnswer()
         {
-            IEnumerable<QuestionModel> questions = _db.Questions.ToList();
+            var questions = _db.Questions.ToList();
             return View(questions);
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

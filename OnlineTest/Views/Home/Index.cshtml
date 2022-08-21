@@ -1,22 +1,10 @@
-﻿@model IEnumerable<UserModel>
-@{
+﻿@{
     ViewData["Title"] = "Home page";
 }
 <script src="~/js/country-states.js"></script>
 
 <div class="row">
-    <div class="col-md-7">
-       @foreach (var obj in Model)  
-        { 
-            <table>
-            <tr>
-                <td>
-                   @obj.Name
-                </td>
-            </tr>
-            </table>
-        }
-    </div>
+    
 
     <div class="col-md-5">
         <form method="post"  asp-controller="Home" asp-action="Signup" style="border:1px solid #ccc">

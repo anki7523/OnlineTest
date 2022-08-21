@@ -9,7 +9,7 @@ namespace OnlineTest.Models
         {
         }
         public DbSet<UserModel> Users { get; set; }
-        public DbSet<QuestionModel> questions { get; set; }
+        public DbSet<QuestionModel> Questions { get; set; }
     }
 }
 

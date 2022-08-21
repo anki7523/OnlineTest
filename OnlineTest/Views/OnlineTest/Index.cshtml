@@ -1,0 +1,25 @@
+﻿@model QuestionsViewModel
+@{
+    //var question = Model.ToList();
+}
+<div class="col-md-7">
+    <form method="post" asp-controller="OnlineTest" asp-action="SubmitAsnwers">
+        @for (int i = 0; i < Model.Questions.Count(); i++)
+        //foreach (var question in Model)
+        {            
+            @Model.Questions[i].Question
+            <input type="hidden" name="UserAnswers[@i].QuestionId" value="@Model.Questions[i].Id" />
+            <h4>Answers</h4>
+            @for (int j = 0; j < Model.Questions[i].Answers.Count(); j++)
+            {             
+                <input type="radio" name="UserAnswers[@i].AnswerId" value="@Model.Questions[i].Answers[j].Id" />
+                @Model.Questions[i].Answers[j].Answer1
+                <br />   
+            }
+        }
+        <div class="clearfix">
+            <button type="submit" class="signupbtn">Submit</button>
+        </div>
+    </form>
+</div>
+
