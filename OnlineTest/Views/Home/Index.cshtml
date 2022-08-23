@@ -4,13 +4,39 @@
 <script src="~/js/country-states.js"></script>
 
 <div class="row">
-    
+    <div class="col-md-7">
+        <div class="card" style="border:0px; border-radius:20px">
+            <div class="card-body p-5">
+                <h2 style="color:brown">
+                    एकल अभियान <br />
+                    एकल श्रीहरि सत्संग समिति
+                </h2>
+
+                <h3 class="pt-3"> exotica की विशेषताएँ </h3>
+                <span style="line-height: 40px;font-weight: bold;">
+                1. Destination Marriage के लिए बहुत ही उपयुक्त भवन । <br />
+                2. Business exihibition के लिए सर्वश्रेष्ठ स्थान । <br />
+                3. एक साथ 350 लोग ठहर सकते हैं ।<br />
+                4. दो बड़े बड़े हॉल है । ज़्यादा सजावट की जरूरत नहीं है ।<br />
+                5. Airport से पाँच मिनिट में भवन पर पहुँच सकते हैं ।<br />
+                6. सूरत के भव्य sea beach पर 7  मिनिट में पहुँच सकते हो ।<br />
+                7. भारत में सुप्रसिद्ध सूरत में स्थित श्याम बाबा का मंदिर, अम्बा माँ का मंदिर , मेहंदीपुर बालाजी और राणी सती आदि मंदिर के दर्शन एक घंटे में कर सकते हो । <br />
+                8. agra exotica में घर जैसा वातावरण मिलेगा । <br />
+                9. पार्किंग की कोई समस्या नहीं है । <br />
+                10. विश्व का सबसे बड़ा diamond hub तैयार हो गया है जो कि देखने लायक़ है । <br />
+                11. agra एक्षोटिका का किराया भी बहुत ही उचित ।
+                </span>
+            </div>
+        </div>
+    </div>
 
     <div class="col-md-5">
-        <form method="post"  asp-controller="Home" asp-action="Signup" style="border:1px solid #ccc">
+        <div class="card" style="border:0px; border-radius:20px">
+            <div class="card-body p-2">
+        <form method="post" asp-controller="Home" asp-action="Signup">
             <div class="container">
-                <h1>Sign Up</h1>
-                <p>Please fill in this form to create an account.</p>
+                <h1>Registration</h1>
+                <p>Please fill in this form to registerd with us.</p>
                 <hr>
 
                 <label for="Name"><b>Name</b></label>
@@ -32,16 +58,15 @@
                 </select>
                 <label for="State"><b>State</b></label>
                 <span id="state-code" name="State"><input type="text" name="State" id="state"></span>
-                
 
-                <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
 
                 <div class="clearfix">
-                    <button type="button" class="cancelbtn">Cancel</button>
-                    <button type="submit" class="signupbtn">Sign Up</button>
+                    <button type="submit" class="btn btn-info">Register</button>
                 </div>
             </div>
         </form>
+        </div>
+        </div>
     </div>
 </div>
 <script>

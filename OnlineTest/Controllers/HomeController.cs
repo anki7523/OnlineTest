@@ -16,8 +16,7 @@ namespace OnlineTest.Controllers
 
         public IActionResult Index()
         {
-            var data = _db.Users.ToList();
-            return View(data);
+            return View();
         }
 
         public IActionResult Privacy()
@@ -27,15 +26,24 @@ namespace OnlineTest.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Signup(UserModel user)
+        public IActionResult Signup(User user)
         {
             if (user !=null)
             {
-                user.CreatedDate = DateTime.Now;
-                user.State = "Gujrat";
-                _db.Add(user);
-                _db.SaveChanges();
-                return RedirectToAction("WelcomePage");
+                var existUser = _db.Users.Where(x=> x.Mobile!= user.Mobile && x.Email != user.Email).Count();
+                if(existUser >0)
+                {
+                    return RedirectToAction("WelcomePage");
+                }
+                else
+                {
+                    user.CreatedDate = DateTime.Now;
+                    user.State = "Gujrat";
+                    _db.Add(user);
+                    _db.SaveChanges();
+                    return RedirectToAction("WelcomePage");
+                }
+               
             }
             else
             {

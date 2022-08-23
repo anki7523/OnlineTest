@@ -1,7 +1,29 @@
-﻿<div class="text-center">
+﻿@{
+    ViewData["Title"] = "Thanks for register";
+}
+<div class="text-center">
     <h2> Thank You for registering with us .</h2>
-    <div class="col-md-3 text-center">
-        <a class="btn btn-info" asp-controller="OnlineTest">Start Test</a>
+    <div class="text-center p-2">
+        <div class="card mb-5" style="border:0px; border-radius: 20px;">
+            <div class="card-body">
+                <span style="line-height: 40px;font-weight: bold;">
+                    निम्नावली : <br />
+                    1)	यह प्रतियोगिता ऑनलाइन Website पर होगी| लिंक के माध्यम से भाग ले सकते है| यह लिंक प्रतियोगिता के दिन निश्चित समय पर खुलेगी| <br />
+                    2)	इस प्रश्नोत्तरी प्रतियोगिता में सभी भारतीय भाग ले सकते हैं| चाहे जिनका जन्म भारत में हुआ हैं या विदेश में| <br />
+                    3)	प्रश्नोत्तरी प्रतियोगिता पेपर 25 नंबर का होगा|<br />
+                    4)	प्रतियोगिता में भाग लेने के लिए तय समय रहेगा| तय समय सीमा के बाद भाग लेने वाले प्रतियोगियों पर विचार नहीं किया जायेगा| कृपया अंतिम समय का इंतजार नहीं करें| <br />
+                    5)	निर्णायको का निर्णय अंतिम एवं सर्वमान्य रहेगा| <br />
+                    6)	प्रतियोगिता में अपना नाम एवं मोबाइल लिखना आवश्यक हैं|<br /> <br />
+
+                    <span style="color:brown">
+                    CA महेश कुमार मित्तल - राष्ट्रीय अध्यक्ष <br />
+                    एकल श्रीहरि सत्संग समिति <br />
+                    </span>
+                </span>
+            </div>
+        </div>
+        <a class="btn btn-info p-2" asp-controller="OnlineTest" asp-action="Index">Start Test</a>
     </div>
+
 </div>
 

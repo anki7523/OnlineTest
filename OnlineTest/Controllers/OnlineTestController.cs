@@ -32,14 +32,15 @@ namespace OnlineTest.Controllers
             return View(model);
         }
 
-        public IActionResult SubmitAsnwers(UserAnswersCreateModel[] model)
+        public IActionResult SubmitAsnwers(QuestionsViewModel model)
         {
             // Todo: save answers logic
-
-
             return View(); // redirect to one view where they can see the total corrected ansers in percentage
         }
 
-
+        public  IActionResult UserResult()
+        {
+            return View();
+        }
     }
 }
