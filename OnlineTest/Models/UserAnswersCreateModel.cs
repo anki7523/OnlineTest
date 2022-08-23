@@ -10,6 +10,5 @@
     {
         public int QuestionId { get; set; }
         public int AnswerId { get; set; }
-        //public List<AnswerViewModel> Answers { get; set; }
     }
 }

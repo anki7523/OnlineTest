@@ -37,8 +37,7 @@ namespace OnlineTest.Controllers
                 }
                 else
                 {
-                    user.CreatedDate = DateTime.Now;
-                    user.State = "Gujrat";
+                    user.CreatedDate = DateTime.Now;                    
                     _db.Add(user);
                     _db.SaveChanges();
                     return RedirectToAction("WelcomePage");

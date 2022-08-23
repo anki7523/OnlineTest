@@ -12,7 +12,7 @@
         public int Id { get; set; }
         public string Question { get; set; } = null!;
 
-        public string QueAns { get; set; }
+        //public string QueAns { get; set; }
 
         public List<AnswerViewModel> Answers { get; set; }
     }
