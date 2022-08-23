@@ -30,8 +30,8 @@ namespace OnlineTest.Controllers
         {
             if (user !=null)
             {
-                var existUser = _db.Users.Where(x=> x.Mobile!= user.Mobile && x.Email != user.Email).Count();
-                if(existUser >0)
+                var isExistUser = _db.Users.Where(x => x.Mobile.Equals(user.Mobile) && x.Email.Equals(user.Email)).Any();
+                if(isExistUser)
                 {
                     return RedirectToAction("WelcomePage");
                 }

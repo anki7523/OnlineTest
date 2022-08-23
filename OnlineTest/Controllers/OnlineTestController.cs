@@ -35,7 +35,7 @@ namespace OnlineTest.Controllers
         public IActionResult SubmitAsnwers(UserAnswersCreateModel model)
         {
             // Todo: save answers logic
-            return View(); // redirect to one view where they can see the total corrected ansers in percentage
+            return View("UserResult"); // redirect to one view where they can see the total corrected ansers in percentage
         }
 
         public  IActionResult UserResult()
