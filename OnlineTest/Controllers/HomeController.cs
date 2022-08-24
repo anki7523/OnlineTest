@@ -28,27 +28,28 @@ namespace OnlineTest.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Signup(User user)
         {
-            if (user !=null)
+            if (user != null)
             {
                 var isExistUser = _db.Users.Where(x => x.Mobile.Equals(user.Mobile) && x.Email.Equals(user.Email)).Any();
-                if(isExistUser)
+                if (isExistUser)
                 {
                     return RedirectToAction("WelcomePage");
                 }
                 else
                 {
-                    user.CreatedDate = DateTime.Now;                    
+                    user.CreatedDate = DateTime.Now;
                     _db.Add(user);
                     _db.SaveChanges();
                     return RedirectToAction("WelcomePage");
                 }
-               
+
             }
             else
             {
-                return RedirectToAction ("Error");
+                return RedirectToAction("Error");
             }
-           
+
+
         }
         public IActionResult WelcomePage()
         {

@@ -34,7 +34,20 @@ namespace OnlineTest.Controllers
 
         public IActionResult SubmitAsnwers(UserAnswersCreateModel model)
         {
+            
             // Todo: save answers logic
+            foreach (var item in model.UserAnswers)
+            {
+                UsersAnswer usersAnswer = new UsersAnswer()
+                {
+
+                    QuestionId = item.QuestionId,
+                    AnswerId = item.AnswerId,
+                    UserId = 3
+                };
+                _db.Add(usersAnswer);
+                _db.SaveChanges();
+            }
             return View("UserResult"); // redirect to one view where they can see the total corrected ansers in percentage
         }
 
