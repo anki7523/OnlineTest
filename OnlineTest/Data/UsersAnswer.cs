@@ -9,7 +9,7 @@ namespace OnlineTest.Data
         public long UserId { get; set; }
         public int QuestionId { get; set; }
         public int? AnswerId { get; set; }
-
+        public DateTime CreatedDate { get; set; }
         public virtual Answer? Answer { get; set; }
         public virtual Question Question { get; set; } = null!;
     }

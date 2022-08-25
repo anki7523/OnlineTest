@@ -5,6 +5,12 @@
 
 <div class="row">
     <div class="col-md-8">
+        @if (TempData["Message"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["Message"]
+            </div>
+        }
         <form method="post" asp-controller="OnlineTest" asp-action="SubmitAsnwers">
             @for (int i = 0; i < Model.Questions.Count(); i++)
             {
@@ -12,24 +18,39 @@
                     <div class="card-body">
 
                         <div class="fw-bold mb-2">
-                            प्र: @Model.Questions[i].Id .  @Model.Questions[i].Question <span class="text-danger"> * </span>
+                            प्र: @Model.Questions[i].Id .  @Model.Questions[i].Question.Trim() <span class="text-danger"> * </span>
+                            <input type="hidden" asp-for="@Model.Questions[i].Id" />
+                            <input type="hidden" asp-for="@Model.Questions[i].Question" />
                         </div>
-                        <input type="hidden" value="@Model.Questions[i].Id" name="UserAnswers[@i].QuestionId" />
 
                         @for (int j = 0; j < Model.Questions[i].Answers.Count(); j++)
                         {
                             <div class="form-check mb-2">
-                                <input type="radio" required="required" class="form-check-input me-2" id="@Model.Questions[i].Answers[j].Id" name="UserAnswers[@i].AnswerId" value="@Model.Questions[i].Answers[j].Id" />
+                                @if (Model.Questions[i].SelectedAnswerId == @Model.Questions[i].Answers[j].Id)
+                                {
+                                    <input type="radio" checked class="form-check-input me-2" id="@Model.Questions[i].Answers[j].Id"
+                               name="Questions[@i].SelectedAnswerId" value="@Model.Questions[i].Answers[j].Id" />
+                                }
+                                else
+                                {
+                                    <input type="radio" class="form-check-input me-2" id="@Model.Questions[i].Answers[j].Id"
+                               name="Questions[@i].SelectedAnswerId" value="@Model.Questions[i].Answers[j].Id" />
+                                }
+
                                 <label class="form-check-label" for="@Model.Questions[i].Answers[j].Id">
-                                    @Model.Questions[i].Answers[j].Answer1
+                                    @Model.Questions[i].Answers[j].Answer1.Trim()
                                 </label>
                             </div>
+
+                            <input type="hidden" asp-for="@Model.Questions[i].Answers[j].Id" />
+                            <input type="hidden" asp-for="@Model.Questions[i].Answers[j].QuestionId" />
+                            <input type="hidden" asp-for="@Model.Questions[i].Answers[j].Answer1" />
                         }
                     </div>
                 </div>
             }
             <div class="clearfix">
-                <button type="submit" class="signupbtn">Submit</button>
+                <button type="submit" onclick="return confirm('Are you want to submit the test?')" class="signupbtn">Submit</button>
             </div>
         </form>
     </div>
@@ -57,35 +78,35 @@
         }
     };
 
-    const TIME_LIMIT = 1500;
+    const TIME_LIMIT = 1800;
     let timePassed = 0;
     let timeLeft = TIME_LIMIT;
     let timerInterval = null;
     let remainingPathColor = COLOR_CODES.info.color;
 
     document.getElementById("app").innerHTML = `
-                        <div class="base-timer">
-                          <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                            <g class="base-timer__circle">
-                              <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
-                              <path
-                                id="base-timer-path-remaining"
-                                stroke-dasharray="283"
-                                class="base-timer__path-remaining ${remainingPathColor}"
-                                d="
-                                  M 50, 50
-                                  m -45, 0
-                                  a 45,45 0 1,0 90,0
-                                  a 45,45 0 1,0 -90,0
-                                "
-                              ></path>
-                            </g>
-                          </svg>
-                          <span id="base-timer-label" class="base-timer__label">${formatTime(
+                                <div class="base-timer">
+                                  <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                    <g class="base-timer__circle">
+                                      <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+                                      <path
+                                        id="base-timer-path-remaining"
+                                        stroke-dasharray="283"
+                                        class="base-timer__path-remaining ${remainingPathColor}"
+                                        d="
+                                          M 50, 50
+                                          m -45, 0
+                                          a 45,45 0 1,0 90,0
+                                          a 45,45 0 1,0 -90,0
+                                        "
+                                      ></path>
+                                    </g>
+                                  </svg>
+                                  <span id="base-timer-label" class="base-timer__label">${formatTime(
         timeLeft
     )}</span>
-                        </div>
-                        `;
+                                </div>
+                                `;
 
     startTimer();
 

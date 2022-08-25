@@ -13,6 +13,7 @@ namespace OnlineTest.Data
 
         public int Id { get; set; }
         public string Question1 { get; set; } = null!;
+        public bool Active { get; set; }
 
         public virtual ICollection<Answer> Answers { get; set; }
         public virtual ICollection<UsersAnswer> UsersAnswers { get; set; }

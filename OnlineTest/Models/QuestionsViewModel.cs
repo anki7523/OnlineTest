@@ -11,8 +11,9 @@
 
         public int Id { get; set; }
         public string Question { get; set; } = null!;
+        public bool Active { get; set; }
 
-        //public string QueAns { get; set; }
+        public int SelectedAnswerId { get; set; }
 
         public List<AnswerViewModel> Answers { get; set; }
     }

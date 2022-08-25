@@ -1,46 +1,39 @@
-﻿
-<div class="card mb-5" style="=border:0px; border-radius: 20px;">
+﻿@model WinnerModel
+@{
+    int index = 0;
+}
+<div class="card mb-5" style="border:0px; border-radius: 20px;">
     <div class="card-body">
         <section class="section skills">
             <div class="container">
-                <div class="row responsive">
+                <div class="row">
                     <div class="col-md-12">
-                        <div class="skills_section text-center">
-                            <div class="skill-head">
-                                <h1>
-                                    Result
-                                </h1>
-                            </div>
+                        <h3 class="text-center fw-bold">
+                            Result
+                        </h3>
+                        <table class="table table-responsive">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">State</th>
+                                    <th scope="col">Prize</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Top3WinnerList)
+                                {
+                                    <tr>
+                                        <th scope="row">@(index + 1)</th>
+                                        <td>@item.Name</td>
+                                        <td>@item.State</td>
+                                        <td>@(Model.Top3WinnerPrize[index])</td>
+                                    </tr>
+                                    index = index + 1;
+                                }
+                            </tbody>
+                        </table>
 
-                            <div class="skills-area">
-                                <div class="single-skill">
-                                    <div class="circlechart" data-percentage="70">
-                                        <svg class="circle-chart" viewBox="0 0 33.83098862 33.83098862" xmlns="http://www.w3.org/2000/svg">
-                                            <circle class="circle-chart__background" cx="16.9" cy="16.9" r="15.9"></circle>
-                                            <circle class="circle-chart__circle success-stroke" stroke-dasharray="70,100" cx="16.9" cy="16.9" r="15.9"></circle>
-                                            <g class="circle-chart__info">
-                                                <text class="circle-chart__percent" x="17.9" y="15.5">70%</text><text class="circle-chart__subline" x="16.91549431" y="22">
-                                                    Coorect Answer
-                                                </text>
-                                            </g>
-                                        </svg>
-                                    </div>
-                                </div>
-                                @* <div class="single-skill">
-                                <div class="circlechart" data-percentage="30">
-                                <svg class="circle-chart" viewBox="0 0 33.83098862 33.83098862" xmlns="http://www.w3.org/2000/svg">
-                                <circle class="circle-chart__background" cx="16.9" cy="16.9" r="15.9"></circle>
-                                <circle class="circle-chart__circle danger-stroke" stroke-dasharray="30,100" cx="16.9" cy="16.9" r="15.9"></circle>
-                                <g class="circle-chart__info">
-                                <text class="circle-chart__percent" x="17.9" y="15.5">30%</text><text class="circle-chart__subline" x="16.91549431" y="22">
-                                Wrong Answer
-                                </text>
-                                </g>
-                                </svg>
-                                </div>
-                                </div>*@
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

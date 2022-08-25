@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@(ViewData["Title"] ?? "एकल अभियान एकल श्रीहरि सत्संग समिति")</title>
+    <title>@("अग्रवाल प्रगति ट्रस्ट | सुन्दरकाण्ड प्रतियोगिता")</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/OnlineTest.styles.css" asp-append-version="true" />
@@ -29,7 +29,10 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" style="color:brown">सुन्दरकाण्ड प्रतियोगिता </a>
+                <div class="d-flex justify-content-start">
+                    <a class="navbar-brand fw-bold" href="/" style="color:brown;">अग्रवाल प्रगति ट्रस्ट</a>
+                    <a class="nav-link text-dark fw-bold" asp-area="" asp-controller="OnlineTest" asp-action="solutions">Solutions</a>
+                </div>
                 @*  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                 aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
