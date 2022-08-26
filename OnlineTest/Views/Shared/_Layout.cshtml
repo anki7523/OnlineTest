@@ -31,7 +31,7 @@
             <div class="container-fluid">
                 <div class="d-flex justify-content-start">
                     <a class="navbar-brand fw-bold" href="/" style="color:brown;">अग्रवाल प्रगति ट्रस्ट</a>
-                    <a class="nav-link text-dark fw-bold" asp-area="" asp-controller="OnlineTest" asp-action="solutions">Solutions</a>
+                   @* <a class="nav-link text-dark fw-bold" asp-area="" asp-controller="OnlineTest" asp-action="solutions">Solutions</a>*@
                 </div>
                 @*  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                 aria-expanded="false" aria-label="Toggle navigation">
@@ -52,6 +52,7 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            <img class="mb-3" src="~/header.jpeg" style="width:100%;"/>
             @RenderBody()
         </main>
     </div>
