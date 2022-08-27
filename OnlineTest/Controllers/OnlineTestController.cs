@@ -13,9 +13,10 @@ namespace OnlineTest.Controllers
         {
             _db = db;
         }
-
+        [Route("OnlineTest")]
         public IActionResult Index()
         {
+            return View("examdate");
             // var itens = _db.UsersAnswers
             //.Join(_db.Answers, ua => ua.AnswerId,
             //a => a.Id, (ua, a) => new { ua, a })
@@ -54,7 +55,7 @@ namespace OnlineTest.Controllers
         }
 
         public IActionResult solutions()
-        {
+        {            
             var data = _db.Questions.Select(x => new QuestionsList
             {
                 Id = x.Id,
