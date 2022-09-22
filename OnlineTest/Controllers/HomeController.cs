@@ -38,7 +38,7 @@ namespace OnlineTest.Controllers
                     {
                         var userID = isExistUser.FirstOrDefault().Id;
                         HttpContext.Session.SetString(SessionKeyName, userID.ToString());
-                        return RedirectToAction("WelcomePage");
+                        return RedirectToAction("Index","OnlineTest");
                     }
                     else
                     {
@@ -47,7 +47,7 @@ namespace OnlineTest.Controllers
                         _db.SaveChanges();
                         long id = user.Id;
                         HttpContext.Session.SetString(SessionKeyName, id.ToString());
-                        return RedirectToAction("WelcomePage");
+                        return RedirectToAction("Index", "OnlineTest");
                     }
                 }
                 else

@@ -2,7 +2,11 @@
 @{
 
 }
-
+@if (TempData["TestTimeInvalid"] !=null){
+    <div class="alert alert-danger">
+        @TempData["TestTimeInvalid"]
+    </div>
+}else{
 <div class="row">
     <div class="col-md-8">
         @if (TempData["Message"] != null)
@@ -58,11 +62,12 @@
         <div id="app" class="bottomright"></div>
     </div>
 </div>
+}
 <script>
 
     const FULL_DASH_ARRAY = 283;
-    const WARNING_THRESHOLD = 10;
-    const ALERT_THRESHOLD = 5;
+    const WARNING_THRESHOLD = 600;
+    const ALERT_THRESHOLD = 300;
 
     const COLOR_CODES = {
         info: {
@@ -125,7 +130,9 @@
             setRemainingPathColor(timeLeft);
 
             if (timeLeft === 0) {
-                window.location.href = "/OnlineTest/UserResult";
+                $(function () {
+                    $('form').submit();
+                });
                 onTimesUp();
                 return
 

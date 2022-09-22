@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineTest.Data;
 using OnlineTest.Models;
+using System.Globalization;
+using System.Net.Sockets;
 
 namespace OnlineTest.Controllers
 {
@@ -16,41 +18,59 @@ namespace OnlineTest.Controllers
         [Route("OnlineTest")]
         public IActionResult Index()
         {
-            return View("examdate");
-            // var itens = _db.UsersAnswers
-            //.Join(_db.Answers, ua => ua.AnswerId,
-            //a => a.Id, (ua, a) => new { ua, a })
-            //.Where(x => x.a.IsCorrect == true)
-            //.GroupBy(x => new { x.ua.UserId })
-            //.Select(g => new
-            //{
-            //    g.Key.UserId,
-            //    Count = g.Count()
-            //}).OrderByDescending(x => x.Count).Take(3).ToList();
-
-            var userid = HttpContext.Session.GetString(SessionKeyName);
-            if (Convert.ToInt64(userid) > 0)
+            DateTime startTestTime = new DateTime(2022, 9, 25, 11, 0, 0);
+            var localDateTime = DateTime.Now;
+            var client = new TcpClient("time.nist.gov", 13);
+            using (var streamReader = new StreamReader(client.GetStream()))
             {
-                var data = _db.Questions.Where(q => q.Active == true).Select(x => new QuestionsList
-                {
-                    Id = x.Id,
-                    Question = x.Question1,
-                    Active = x.Active,
-                    Answers = _db.Answers.Where(a => a.QuestionId == x.Id).Select(ax => new AnswerViewModel
-                    {
-                        Id = ax.Id,
-                        QuestionId = ax.QuestionId,
-                        Answer1 = ax.Answer1
-                    }).ToList()
+                var response = streamReader.ReadToEnd();
+                var utcDateTimeString = response.Substring(7, 17);
+                localDateTime = DateTime.ParseExact(utcDateTimeString, "yy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
+            }
 
-                }).Where(x => x.Answers.Count() > 0); // yahan pe active = 0 check kar lena DB update krne ke baad
-                QuestionsViewModel model = new QuestionsViewModel { Questions = data.ToList() };
-                return View(model);
+            if (localDateTime >= startTestTime)
+            {
+                //return View("examdate");
+                // var itens = _db.UsersAnswers
+                //.Join(_db.Answers, ua => ua.AnswerId,
+                //a => a.Id, (ua, a) => new { ua, a })
+                //.Where(x => x.a.IsCorrect == true)
+                //.GroupBy(x => new { x.ua.UserId })
+                //.Select(g => new
+                //{
+                //    g.Key.UserId,
+                //    Count = g.Count()
+                //}).OrderByDescending(x => x.Count).Take(3).ToList();
+
+                var userid = HttpContext.Session.GetString(SessionKeyName);
+                if (Convert.ToInt64(userid) > 0)
+                {
+                    var data = _db.Questions.Where(q => q.Active == true).Select(x => new QuestionsList
+                    {
+                        Id = x.Id,
+                        Question = x.Question1,
+                        Active = x.Active,
+                        Answers = _db.Answers.Where(a => a.QuestionId == x.Id).Select(ax => new AnswerViewModel
+                        {
+                            Id = ax.Id,
+                            QuestionId = ax.QuestionId,
+                            Answer1 = ax.Answer1
+                        }).ToList()
+
+                    }).Where(x => x.Answers.Count() > 0); // yahan pe active = 0 check kar lena DB update krne ke baad
+                    QuestionsViewModel model = new QuestionsViewModel { Questions = data.ToList() };
+                    return View(model);
+                }
+                else
+                {
+                    TempData["Message"] = "You have not access. please register yourself.";
+                    return RedirectToAction("Index", "Home");
+                }
             }
             else
             {
-                TempData["Message"] = "You have not access. please register yourself.";
-                return RedirectToAction("Index", "Home");
+                TempData["TestTimeInvalid"] = "Test will start at 11:00 AM on 25th September 2022. please refresh page on time.";
+                return View();
             }
         }
 
