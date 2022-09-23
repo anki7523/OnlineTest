@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using OnlineTest.Data;
+using OnlineTest.DataAccess.Interfaces;
+using OnlineTest.DataAccess.Repositories;
 using OnlineTest.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +11,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<OnlineTestContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("DefaultConnection")
     ));
+
+builder.Services.AddSingleton<IDataRepository, DataRepository>();
+builder.Services.AddSingleton<IDbRepository, DbRepository>();
+
 
 builder.Services.AddDistributedMemoryCache();
 

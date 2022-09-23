@@ -1,6 +1,7 @@
 ﻿@model WinnerModel
 @{
     int index = 0;
+    int stateWinner = 0;
 }
 <div class="card mb-5" style="border:0px; border-radius: 20px;">
     <div class="card-body">
@@ -15,7 +16,7 @@
                     }
                     <div class="col-md-12">
                         <h3 class="text-center fw-bold">
-                            Result
+                            Top 3 Winner
                         </h3>
                         <table class="table table-responsive">
                             <thead class="thead-dark">
@@ -31,11 +32,39 @@
                                 {
                                     <tr>
                                         <th scope="row">@(index + 1)</th>
-                                        <td>@item.Name</td>
-                                        <td>@item.State</td>
+                                        <td style="width:40%">@item.Name</td>
+                                        <td style="width:40%">@item.State</td>
                                         <td>@(Model.Top3WinnerPrize[index])</td>
                                     </tr>
                                     index = index + 1;
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="col-md-12">
+                        <h3 class="text-center fw-bold">
+                            State wise 1st winner
+                        </h3>
+                        <table class="table table-responsive">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">State</th>
+                                    <th scope="col">Prize</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.StateWiseWinnerList)
+                                {
+                                    <tr>
+                                        <th scope="row">@(stateWinner + 1)</th>
+                                        <td style="width:40%">@item.Name</td>
+                                        <td style="width:40%">@item.State</td>
+                                        <td>3100</td>
+                                    </tr>
+                                    stateWinner = stateWinner + 1;
                                 }
                             </tbody>
                         </table>
@@ -46,3 +75,8 @@
         </section>
     </div>
 </div>
+<style>
+    table td {
+        word-wrap: break-word;
+    }
+</style>

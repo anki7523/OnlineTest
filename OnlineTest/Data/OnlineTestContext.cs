@@ -20,6 +20,7 @@ namespace OnlineTest.Data
         public virtual DbSet<Question> Questions { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<UsersAnswer> UsersAnswers { get; set; } = null!;
+        public virtual DbSet<StateWiseResult> StateWiseResults { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -32,22 +33,38 @@ namespace OnlineTest.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Answer>(entity =>
+        //    public string Name { get; set; }
+        //public string State { get; set; }
+        //public int TotalCorrectAnswer { get; set; }
+        //public DateTime SubmittedDate { get; set; }
+        //public int RankNo { get; set; }
+
+        modelBuilder.Entity<StateWiseResult>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.Answer1)
-                    .HasMaxLength(500)
-                    .HasColumnName("Answer");
-
-                entity.Property(e => e.QuestionId).HasColumnName("QuestionID");
-
-                entity.HasOne(d => d.Question)
-                    .WithMany(p => p.Answers)
-                    .HasForeignKey(d => d.QuestionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Answer_Question");
+                entity.HasNoKey();
+                entity.Property(e => e.UserID).HasColumnName("UserID").HasColumnType("bigint");
+                entity.Property(e => e.TotalCorrectAnswer).HasColumnName("TotalCorrectAnswer").HasColumnType("bigint");
+                entity.Property(e => e.RankNo).HasColumnName("RankNo").HasColumnType("bigint");
+                //entity.Property(e => e.UserID).HasColumnName("UserID");
+                entity.Property(e => e.SubmittedDate).HasColumnType("datetime");
             });
+
+            modelBuilder.Entity<Answer>(entity =>
+        {
+            entity.Property(e => e.Id).HasColumnName("ID");
+
+            entity.Property(e => e.Answer1)
+                .HasMaxLength(500)
+                .HasColumnName("Answer");
+
+            entity.Property(e => e.QuestionId).HasColumnName("QuestionID");
+
+            entity.HasOne(d => d.Question)
+                .WithMany(p => p.Answers)
+                .HasForeignKey(d => d.QuestionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Answer_Question");
+        });
 
             modelBuilder.Entity<Question>(entity =>
             {

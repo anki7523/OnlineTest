@@ -1,24 +1,31 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using OnlineTest.Data;
+using OnlineTest.DataAccess.Interfaces;
 using OnlineTest.Models;
 using System.Globalization;
 using System.Net.Sockets;
+using System.Runtime.CompilerServices;
 
 namespace OnlineTest.Controllers
 {
     public class OnlineTestController : Controller
     {
         private readonly OnlineTestContext _db;
+        private readonly IDataRepository _dataRepository;
         public const string SessionKeyName = "UserId";
 
-        public OnlineTestController(OnlineTestContext db)
+
+        public OnlineTestController(OnlineTestContext db, IDataRepository dataRepository)
         {
             _db = db;
+            _dataRepository = dataRepository;
         }
         [Route("OnlineTest")]
         public IActionResult Index()
         {
-            DateTime startTestTime = new DateTime(2022, 9, 25, 11, 0, 0);
+            DateTime startTestTime = new DateTime(2022, 9, 23, 17, 0, 0);
             var localDateTime = DateTime.Now;
             var client = new TcpClient("time.nist.gov", 13);
             using (var streamReader = new StreamReader(client.GetStream()))
@@ -27,9 +34,20 @@ namespace OnlineTest.Controllers
                 var utcDateTimeString = response.Substring(7, 17);
                 localDateTime = DateTime.ParseExact(utcDateTimeString, "yy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
             }
-
+            double totalSeconds = 1800;
+            ViewBag.totalPassedSecond = 0;
             if (localDateTime >= startTestTime)
             {
+                var totalPassedSecond = localDateTime.Subtract(startTestTime).TotalSeconds;
+                ViewBag.totalPassedSecond = totalPassedSecond;
+                if (totalPassedSecond > totalSeconds)
+                {
+                    ViewBag.totalPassedSecond = 1799;
+                }
+                else
+                {
+                    ViewBag.totalPassedSecond = totalPassedSecond;
+                }
                 //return View("examdate");
                 // var itens = _db.UsersAnswers
                 //.Join(_db.Answers, ua => ua.AnswerId,
@@ -69,13 +87,14 @@ namespace OnlineTest.Controllers
             }
             else
             {
+
                 TempData["TestTimeInvalid"] = "Test will start at 11:00 AM on 25th September 2022. please refresh page on time.";
                 return View();
             }
         }
 
         public IActionResult solutions()
-        {            
+        {
             var data = _db.Questions.Select(x => new QuestionsList
             {
                 Id = x.Id,
@@ -145,6 +164,7 @@ namespace OnlineTest.Controllers
         public IActionResult UserResult()
         {
             WinnerModel model = new WinnerModel();
+            
             var userid = HttpContext.Session.GetString(SessionKeyName);
             if (Convert.ToInt64(userid) > 0)
             {
@@ -152,19 +172,24 @@ namespace OnlineTest.Controllers
                                    join a in _db.Answers on ua.AnswerId equals a.Id
                                    join u in _db.Users on ua.UserId equals u.Id
                                    where a.IsCorrect == true
-                                   group ua by new { ua.UserId, u.Name, u.State} into g
+                                   group ua by new { ua.UserId, u.Name, u.State } into g
                                    select new Top3WinnerModel
                                    {
                                        Name = g.Key.Name,
-                                       State = g.Key.State,                                       
+                                       State = g.Key.State,
                                        UserId = g.Key.UserId,
                                        TotalCorrectAnswers = g.Count(),
                                    }).OrderByDescending(x => x.TotalCorrectAnswers).Take(3);
 
 
+                var stateWiseRank = _dataRepository.GetStateWiseResult().Result;
+                // remove user from the statewise winner who is already in top 3
+                var stateWiseWinner = stateWiseRank.Where(x => !top3winners.Any(y => y.UserId == x.UserID));
                 int[] top3winnerprize = { 11000, 7100, 5100 };
                 model.Top3WinnerPrize = top3winnerprize;
                 model.Top3WinnerList = top3winners.ToList();
+                model.StateWiseWinnerList = stateWiseWinner.ToList();
+
                 return View(model);
             }
             else
