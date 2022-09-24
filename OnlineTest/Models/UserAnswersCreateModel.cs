@@ -3,7 +3,6 @@
     public class UserAnswersCreateModel
     {
         public List<QuestionsAnswer> UserAnswers { get; set; }
-
     }
 
     public class QuestionsAnswer

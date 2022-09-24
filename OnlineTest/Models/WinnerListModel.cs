@@ -6,9 +6,7 @@ namespace OnlineTest.Models
     {
         public List<Top3WinnerModel> Top3WinnerList { get; set; }
         public List<StateWiseResult> StateWiseWinnerList { get; set; }
-        
         public int[] Top3WinnerPrize { get; set; }
-        
     }
     public class Top3WinnerModel
     {

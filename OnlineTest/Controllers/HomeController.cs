@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineTest.Data;
+using OnlineTest.DataAccess.Interfaces;
+using OnlineTest.DataAccess.Repositories;
 using OnlineTest.Models;
+using System.Data.Entity;
 using System.Diagnostics;
 
 namespace OnlineTest.Controllers
@@ -8,11 +11,13 @@ namespace OnlineTest.Controllers
     public class HomeController : Controller
     {
         private readonly OnlineTestContext _db;
+        private readonly IDataRepository _repository;
         public const string SessionKeyName = "UserId";
 
-        public HomeController(OnlineTestContext db)
+        public HomeController(OnlineTestContext db, IDataRepository repository)
         {
             _db = db;
+            _repository = repository;
         }
 
         public IActionResult Index()
@@ -27,26 +32,23 @@ namespace OnlineTest.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Signup(User user)
+        public async Task<IActionResult> Signup(UserSignupModel user)
         {
             try
             {
                 if (user != null)
                 {
-                    var isExistUser = _db.Users.Where(x => x.Mobile.Equals(user.Mobile));
-                    if (isExistUser.Any())
+                    var id = await _repository.CheckUser(user.Mobile);
+                    if (id > 0)
                     {
-                        var userID = isExistUser.FirstOrDefault().Id;
+                        var userID = id;
                         HttpContext.Session.SetString(SessionKeyName, userID.ToString());
-                        return RedirectToAction("Index","OnlineTest");
+                        return RedirectToAction("Index", "OnlineTest");
                     }
                     else
                     {
-                        user.CreatedDate = DateTime.Now;
-                        _db.Add(user);
-                        _db.SaveChanges();
-                        long id = user.Id;
-                        HttpContext.Session.SetString(SessionKeyName, id.ToString());
+                        var userId = await _repository.AddUser(user);
+                        HttpContext.Session.SetString(SessionKeyName, userId.ToString());
                         return RedirectToAction("Index", "OnlineTest");
                     }
                 }
@@ -55,11 +57,12 @@ namespace OnlineTest.Controllers
                     TempData["Message"] = "Something Went wrong ! please try again later.";
                 }
             }
-            catch
+            catch(Exception ex)
             {
                 TempData["Message"] = "Something Went wrong ! please try again later.";
             }
-            return View();
+            TempData["Message"] = "Something Went wrong ! please try again later.";
+            return RedirectToAction("Index", "Home");
 
         }
         public IActionResult WelcomePage()
