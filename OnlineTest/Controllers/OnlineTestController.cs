@@ -25,8 +25,8 @@ namespace OnlineTest.Controllers
         [Route("OnlineTest")]
         public IActionResult Index()
         {
-            DateTime startTestTime = new DateTime(2022, 9, 24, 16, 40, 0);
-            DateTime endTestTime = new DateTime(2022, 9, 24, 16, 55, 0);
+            DateTime startTestTime = new DateTime(2022, 9, 24, 18, 0, 0);
+            DateTime endTestTime = new DateTime(2022, 9, 25, 11, 30, 0);
             var localDateTime = DateTime.Now;
             try
             {
@@ -39,7 +39,6 @@ namespace OnlineTest.Controllers
                 }
             }
             catch (Exception) { }
-            double totalSeconds = 1800;
             ViewBag.totalPassedSecond = 0;
             if(localDateTime < endTestTime) 
             {
@@ -47,14 +46,6 @@ namespace OnlineTest.Controllers
                 {
                     var totalPassedSecond = Math.Round(localDateTime.Subtract(startTestTime).TotalSeconds);
                     ViewBag.totalPassedSecond = totalPassedSecond;
-                    if (totalPassedSecond > totalSeconds)
-                    {
-                        ViewBag.totalPassedSecond = 1799;
-                    }
-                    else
-                    {
-                        ViewBag.totalPassedSecond = totalPassedSecond;
-                    }
                     var userid = HttpContext.Session.GetString(SessionKeyName);
                     if (Convert.ToInt64(userid) > 0)
                     {
